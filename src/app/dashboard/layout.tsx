@@ -1,5 +1,12 @@
+import type { Metadata } from "next";
 import { Navbar } from "@/components/layout";
 import { Footer } from "@/components/layout";
+
+export const metadata: Metadata = {
+  title: "Dashboard",
+  description:
+    "Your farm weather dashboard — real-time conditions, 7-day forecast, and crop-specific recommendations.",
+};
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (

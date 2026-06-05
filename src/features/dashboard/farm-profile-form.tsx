@@ -45,7 +45,7 @@ export function FarmProfileForm({ onSubmit, isLoading }: FarmProfileFormProps) {
   }
 
   return (
-    <Card className="sticky top-6">
+    <Card className="lg:sticky lg:top-6">
       <CardHeader className="border-b border-border/50 pb-4">
         <CardTitle className="flex items-center gap-2 text-sm font-semibold">
           <Tractor className="size-4 text-primary" />

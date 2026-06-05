@@ -14,10 +14,25 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "FarmCast — Weather-Driven Farm Intelligence",
+  title: {
+    default: "FarmCast — Weather-Driven Farm Intelligence",
+    template: "%s — FarmCast",
+  },
   description:
     "Make informed agricultural decisions with real-time weather data and AI-powered recommendations.",
   keywords: ["farming", "weather", "agriculture", "crop management", "forecast"],
+  openGraph: {
+    title: "FarmCast — Weather-Driven Farm Intelligence",
+    description:
+      "Make informed agricultural decisions with real-time weather data and AI-powered recommendations.",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "FarmCast — Weather-Driven Farm Intelligence",
+    description:
+      "Make informed agricultural decisions with real-time weather data and AI-powered recommendations.",
+  },
 };
 
 export default function RootLayout({
