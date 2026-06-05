@@ -1,10 +1,20 @@
-import { cn } from "@/lib/utils";
+import { AlertTriangle } from "lucide-react"
+
+import {
+  Alert,
+  AlertContent,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
+} from "@/components/ui/alert"
+import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
 
 interface ErrorMessageProps {
-  title?: string;
-  message: string;
-  className?: string;
-  onRetry?: () => void;
+  title?: string
+  message: string
+  className?: string
+  onRetry?: () => void
 }
 
 export function ErrorMessage({
@@ -14,17 +24,24 @@ export function ErrorMessage({
   onRetry,
 }: ErrorMessageProps) {
   return (
-    <div className={cn("rounded-lg border border-red-200 bg-red-50 p-4", className)}>
-      <p className="text-sm font-medium text-red-800">{title}</p>
-      <p className="mt-1 text-sm text-red-700">{message}</p>
-      {onRetry && (
-        <button
-          onClick={onRetry}
-          className="mt-3 text-sm font-medium text-red-800 underline hover:no-underline"
-        >
-          Try again
-        </button>
-      )}
-    </div>
-  );
+    <Alert variant="error" className={cn(className)}>
+      <AlertIcon>
+        <AlertTriangle />
+      </AlertIcon>
+      <AlertContent>
+        <AlertTitle>{title}</AlertTitle>
+        <AlertDescription>{message}</AlertDescription>
+        {onRetry && (
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={onRetry}
+            className="mt-2 -ml-1 h-7 px-2 text-red-700 hover:bg-red-100 hover:text-red-800"
+          >
+            Try again
+          </Button>
+        )}
+      </AlertContent>
+    </Alert>
+  )
 }
