@@ -1,28 +1,34 @@
-import { ApiError } from "@/types";
+import axios, { AxiosError, AxiosInstance } from "axios";
+import { env } from "@/lib/env";
+import type { ApiError } from "@/types";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "";
+function normalizeError(err: AxiosError): ApiError {
+  const status = err.response?.status;
+  const data = err.response?.data as Record<string, unknown> | undefined;
+  const message =
+    (typeof data?.message === "string" ? data.message : undefined) ??
+    (typeof data?.error === "string" ? data.error : undefined) ??
+    err.message ??
+    "An unexpected error occurred";
 
-async function request<T>(path: string, options?: RequestInit): Promise<T> {
-  const url = `${BASE_URL}${path}`;
-  const res = await fetch(url, {
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    ...options,
-  });
-
-  if (!res.ok) {
-    const error: ApiError = {
-      message: `Request failed: ${res.statusText}`,
-      status: res.status,
-    };
-    throw error;
-  }
-
-  return res.json() as Promise<T>;
+  return { message, status };
 }
 
+const instance: AxiosInstance = axios.create({
+  baseURL: env.apiBaseUrl || "",
+  headers: { "Content-Type": "application/json" },
+  timeout: 15_000,
+});
+
+instance.interceptors.response.use(
+  (response) => response,
+  (error: AxiosError) => Promise.reject(normalizeError(error))
+);
+
 export const httpClient = {
-  get: <T>(path: string, options?: RequestInit) =>
-    request<T>(path, { method: "GET", ...options }),
-  post: <T>(path: string, body: unknown, options?: RequestInit) =>
-    request<T>(path, { method: "POST", body: JSON.stringify(body), ...options }),
+  get: <T>(path: string, params?: Record<string, string | number | boolean | undefined>) =>
+    instance.get<T>(path, { params }).then((res) => res.data),
+
+  post: <T>(path: string, data?: unknown) =>
+    instance.post<T>(path, data).then((res) => res.data),
 };
