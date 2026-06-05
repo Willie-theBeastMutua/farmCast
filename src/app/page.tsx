@@ -1,14 +1,5 @@
 import Link from "next/link"
-import {
-  Sprout,
-  ShieldAlert,
-  CalendarRange,
-  ArrowRight,
-  MapPin,
-  Droplets,
-  Wind,
-  Thermometer,
-} from "lucide-react"
+import { Sprout, ShieldAlert, CalendarRange, ArrowRight } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Navbar } from "@/components/layout"
@@ -60,46 +51,35 @@ export default function HomePage() {
 
       <main className="flex-1">
         {/* Hero */}
-        <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-16 pb-24">
-          <div className="grid grid-cols-1 gap-16 lg:grid-cols-2 lg:items-center">
-            {/* Left */}
-            <div>
-              <p className="text-sm font-semibold text-[#16a34a] mb-5 tracking-wide">
-                For farmers who plan ahead
-              </p>
-              <h1 className="text-5xl sm:text-6xl font-bold text-[#123956] tracking-tight leading-[1.06]">
-                Know before
-                <br />
-                you grow.
-              </h1>
-              <p className="mt-6 text-lg text-muted-foreground leading-relaxed max-w-md">
-                FarmCast turns real-time weather data into clear, crop-specific
-                advice — so you spend less time guessing and more time on the
-                farm.
-              </p>
-              <div className="mt-8 flex items-center gap-3 flex-wrap">
-                <Button size="xl" render={<Link href="/dashboard" />}>
-                  Open Dashboard
-                  <ArrowRight className="size-4" />
-                </Button>
-                <Button
-                  size="xl"
-                  variant="ghost"
-                  render={<Link href="#how-it-works" />}
-                >
-                  See how it works
-                </Button>
-              </div>
-              <p className="mt-5 text-xs text-muted-foreground">
-                No account needed. Enter your location and go.
-              </p>
-            </div>
-
-            {/* Right: weather preview */}
-            <div className="hidden lg:block">
-              <WeatherPreviewCard />
-            </div>
+        <section className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 pt-20 pb-24 text-center">
+          <p className="text-sm font-semibold text-[#16a34a] mb-5 tracking-wide">
+            For farmers who plan ahead
+          </p>
+          <h1 className="text-5xl sm:text-6xl font-bold text-[#123956] tracking-tight leading-[1.06]">
+            Know before
+            <br />
+            you grow.
+          </h1>
+          <p className="mt-6 text-lg text-muted-foreground leading-relaxed max-w-xl mx-auto">
+            FarmCast turns real-time weather data into clear, crop-specific
+            advice — so you spend less time guessing and more time on the farm.
+          </p>
+          <div className="mt-8 flex items-center justify-center gap-3 flex-wrap">
+            <Button size="xl" render={<Link href="/dashboard" />}>
+              Open Dashboard
+              <ArrowRight className="size-4" />
+            </Button>
+            <Button
+              size="xl"
+              variant="ghost"
+              render={<Link href="#how-it-works" />}
+            >
+              See how it works
+            </Button>
           </div>
+          <p className="mt-5 text-xs text-muted-foreground">
+            No account needed. Enter your location and go.
+          </p>
         </section>
 
         {/* How it works */}
@@ -190,66 +170,6 @@ export default function HomePage() {
       </main>
 
       <Footer />
-    </div>
-  )
-}
-
-function WeatherPreviewCard() {
-  return (
-    <div className="rounded-2xl border border-border bg-card shadow-sm overflow-hidden">
-      {/* Header */}
-      <div className="flex items-center justify-between px-5 py-3.5 border-b border-border/60">
-        <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-          <MapPin className="size-3.5" />
-          <span className="font-medium">Nairobi, Kenya</span>
-        </div>
-        <span className="rounded-md bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground">
-          Partly Cloudy
-        </span>
-      </div>
-
-      {/* Temperature display */}
-      <div className="grid grid-cols-[auto_1fr]">
-        <div className="px-6 py-6 border-r border-border/60">
-          <p className="text-7xl font-bold text-[#123956] tabular-nums tracking-tight leading-none">
-            28°
-          </p>
-          <p className="text-xs text-muted-foreground mt-2">Feels like 31°C</p>
-        </div>
-
-        {/* Stats */}
-        <div className="grid grid-cols-1 divide-y divide-border/60">
-          {[
-            { icon: Droplets, label: "Rain chance", value: "15%" },
-            { icon: Wind, label: "Wind speed", value: "12 km/h" },
-            { icon: Thermometer, label: "Humidity", value: "67%" },
-          ].map((s) => {
-            const Icon = s.icon
-            return (
-              <div key={s.label} className="flex items-center gap-3 px-5 py-3">
-                <Icon className="size-3.5 text-muted-foreground shrink-0" />
-                <span className="text-xs text-muted-foreground flex-1">
-                  {s.label}
-                </span>
-                <span className="text-xs font-semibold tabular-nums text-foreground">
-                  {s.value}
-                </span>
-              </div>
-            )
-          })}
-        </div>
-      </div>
-
-      {/* Recommendation */}
-      <div className="border-t border-border/60 bg-[#16a34a]/5 px-5 py-4">
-        <p className="text-xs font-semibold text-[#16a34a] mb-1">
-          Today&apos;s recommendation
-        </p>
-        <p className="text-xs text-muted-foreground leading-relaxed">
-          Good conditions for spraying. Wind is calm and no rain expected in the
-          next 6 hours.
-        </p>
-      </div>
     </div>
   )
 }

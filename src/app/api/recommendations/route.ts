@@ -8,35 +8,20 @@ import {
   deriveActivities,
 } from "@/lib/recommendations-engine";
 
-const FALLBACK_WEATHER: WeatherData = {
-  location: "Unknown",
-  timezone: "UTC",
-  current: {
-    temperature: 28,
-    feelsLike: 30,
-    rainProbability: 30,
-    windSpeed: 12,
-    humidity: 65,
-    uvIndex: 6,
-    condition: "Partly Cloudy",
-    icon: "partly-cloudy",
-    updatedAt: new Date().toISOString(),
-  },
-  forecast: [],
-};
-
 export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => ({}));
 
-  const profile: FarmProfile = body?.profile ?? {
-    location: "Unknown",
-    cropType: "maize",
-    farmSize: 1,
-    farmSizeUnit: "acres",
-    farmingStage: "vegetative",
-  };
+  const profile: FarmProfile | undefined = body?.profile;
+  const weather: WeatherData | undefined = body?.weather;
 
-  const weather: WeatherData = body?.weather ?? FALLBACK_WEATHER;
+  if (!profile) {
+    return NextResponse.json({ error: "profile is required" }, { status: 400 });
+  }
+
+  if (!weather?.current) {
+    return NextResponse.json({ error: "weather data is required" }, { status: 400 });
+  }
+
   const { current, forecast } = weather;
 
   const response: RecommendationsResponse = {
