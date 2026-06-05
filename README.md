@@ -20,7 +20,7 @@ npm install
 Create a `.env.local` file:
 
 ```env
-WEATHER_API_KEY=your_openweathermap_key
+WEATHER_AI_API_KEY=wai_your_key_here
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 ```
 
