@@ -75,9 +75,6 @@ export function useDashboard() {
     isLoading:
       state.weather.state === "loading" ||
       state.recommendations.state === "loading",
-    hasData:
-      state.weather.state === "success" ||
-      state.weather.state === "error" ||
-      state.recommendations.state === "success",
+    hasData: submittedProfile !== null,
   };
 }
