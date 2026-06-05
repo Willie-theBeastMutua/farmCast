@@ -2,21 +2,21 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Leaf } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-border">
+    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-border">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-14 items-center justify-between">
           <Link href="/" className="flex items-center gap-2.5">
-            <div className="h-7 w-7 rounded-md bg-[#123956] flex items-center justify-center">
-              <span className="text-white text-xs font-bold">FC</span>
+            <div className="h-7 w-7 rounded-lg bg-[#123956] flex items-center justify-center">
+              <Leaf className="size-3.5 text-white" />
             </div>
-            <span className="font-semibold text-[#123956] tracking-tight">FarmCast</span>
+            <span className="font-bold text-[#123956] tracking-tight">FarmCast</span>
           </Link>
 
           <nav className="hidden md:flex items-center gap-6">
@@ -29,7 +29,7 @@ export function Navbar() {
             <Separator orientation="vertical" className="h-4" />
             <Link
               href="/dashboard"
-              className="inline-flex items-center rounded-md bg-[#123956] px-3.5 py-1.5 text-sm font-medium text-white hover:bg-[#123956]/90 transition-colors"
+              className="inline-flex items-center rounded-lg bg-[#123956] px-3.5 py-1.5 text-sm font-medium text-white hover:bg-[#123956]/90 transition-colors"
             >
               Get Started
             </Link>
