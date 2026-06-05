@@ -31,33 +31,40 @@ export function useDashboard() {
     setSubmittedProfile(profile);
     setState({ weather: loading(), recommendations: loading() });
 
-    const [weatherResult, recsResult] = await Promise.allSettled([
-      getWeatherByLocation(profile.location),
-      getRecommendations({ profile }),
-    ]);
+    // Fetch weather first so recommendations can be derived from real conditions
+    let weatherData: WeatherData | null = null;
+    let weatherSlice: AsyncSlice<WeatherData>;
 
-    setState({
-      weather:
-        weatherResult.status === "fulfilled"
-          ? { data: weatherResult.value, state: "success", error: null }
-          : {
-              data: null,
-              state: "error",
-              error:
-                (weatherResult.reason as Error)?.message ??
-                "Failed to load weather data",
-            },
-      recommendations:
-        recsResult.status === "fulfilled"
-          ? { data: recsResult.value, state: "success", error: null }
-          : {
-              data: null,
-              state: "error",
-              error:
-                (recsResult.reason as Error)?.message ??
-                "Failed to load recommendations",
-            },
-    });
+    try {
+      weatherData = await getWeatherByLocation(profile.location);
+      weatherSlice = { data: weatherData, state: "success", error: null };
+    } catch (err) {
+      weatherSlice = {
+        data: null,
+        state: "error",
+        error: (err as Error)?.message ?? "Failed to load weather data",
+      };
+    }
+
+    setState((prev) => ({ ...prev, weather: weatherSlice }));
+
+    // Pass weather data to the recommendations engine; fall back gracefully if weather failed
+    let recsSlice: AsyncSlice<RecommendationsResponse>;
+    try {
+      const recsData = await getRecommendations({
+        profile,
+        weather: weatherData ?? undefined,
+      });
+      recsSlice = { data: recsData, state: "success", error: null };
+    } catch (err) {
+      recsSlice = {
+        data: null,
+        state: "error",
+        error: (err as Error)?.message ?? "Failed to load recommendations",
+      };
+    }
+
+    setState((prev) => ({ ...prev, recommendations: recsSlice }));
   }, []);
 
   return {

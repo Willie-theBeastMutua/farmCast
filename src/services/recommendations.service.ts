@@ -1,9 +1,10 @@
 import type { FarmProfile, Recommendation, ActivitySuggestion, RiskIndicator } from "@/types";
+import type { WeatherData } from "@/types/weather";
 import { httpClient } from "./http-client";
 
 export interface RecommendationsPayload {
   profile: FarmProfile;
-  weatherDataId?: string;
+  weather?: WeatherData;
 }
 
 export interface RecommendationsResponse {
